@@ -1,167 +1,70 @@
-# DotAccess - Convenient Access to Nested Data Using Dot Notation
+# Env Manager
 
-The `DotAccess` class provides a user-friendly wrapper around the functionality of the `Dflydev\DotAccessData\Data` package, allowing easy access to nested data using dot notation in PHP.
+The Env Manager is a PHP package designed to provide a secure, flexible, and object-oriented approach to managing environment variables in PHP applications. With built-in support for whitelists and optional value encryption, this package ensures that your application handles environment variables in a secure and efficient manner.
+
+## Features
+
+- **Whitelist Management**: Securely specify which environment variables are accessible, preventing unauthorized access to sensitive information.
+- **Optional Encryption**: Encrypt environment variable values for an added layer of security, using a customizable encryption path.
+- **Type Conversion**: Automatically convert environment variable values to their appropriate data types, including integers and booleans.
+- **Flexible Configuration**: Easily set and update the whitelist and encryption path as per your application's requirements.
 
 ## Installation
 
-1. Ensure you have [Composer](https://getcomposer.org/) installed on your system.
-2. Run the following command to install the package:
+To install the Env Manager, run the following command in your project directory:
 
 ```bash
-composer require devuri/dot-access
+composer require devuri/env
 ```
 
-## Getting Started
+## Usage
 
-1. Include the `DotAccess` class in your PHP script:
+### Basic Usage
 
 ```php
+use Urisoft\Env;
 
-use Urisoft\DotAccess;
+// Initialize the Env with a whitelist of environment variables
+$env = new Env([
+    'APP_KEY', 'DB_HOST', 'DB_NAME', // Add your environment variables here
+]);
 
+// Retrieve an environment variable
+$dbHost = $env->get('DB_HOST');
+
+// Retrieve an environment variable with a default value
+$debugMode = $env->get('DEBUG_MODE', false);
 ```
 
-2. Create an instance of the `DotAccess` class and pass the nested data (array or object) to the constructor:
+### With Encryption
+
+To use the encryption feature, ensure you have set an encryption path and the `Encryption` class is properly configured.
 
 ```php
-$data = [
-    'user' => [
-        'name' => 'John Doe',
-        'email' => 'john.doe@example.com',
-        'address' => [
-            'city' => 'New York',
-            'country' => 'USA',
-        ],
-    ],
-];
+$env = new Env([], '/path/to/encryption/key');
 
-$dotdata = new DotAccess($data);
+// Retrieve and encrypt an environment variable
+$encryptedAppKey = $env->get('APP_KEY', true);
 ```
 
-## Accessing Data
+### Updating the Whitelist
 
-The `DotAccess` class provides the following methods to access the nested data using dot notation:
-
-### Get the Value
-
-Use the `get()` method to retrieve the value associated with a dot notation key:
+You can update the whitelist at any time using the `setWhitelist` method.
 
 ```php
-$name = $dotdata->get('user.name');
-$email = $dotdata->get('user.email');
-$city = $dotdata->get('user.address.city');
+$env->setWhitelist([
+    'NEW_VAR_1', 'NEW_VAR_2', // Add new variables as needed
+]);
 ```
 
-### Set the Value
+## Security
 
-Use the `set()` method to set a value for a dot notation key:
+The Env Manager includes a whitelist feature to ensure only predefined environment variables are accessible, adding an extra layer of security to your application. When using the encryption feature, ensure that your encryption keys are stored securely and are not accessible to unauthorized users.
 
-```php
-$dotdata->set('user.age', 30);
-```
+## Contributing
 
-### Checking for Key Existence
-
-Use the `has()` method to check if a dot notation key exists in the data:
-
-```php
-$emailExists = $dotdata->has('user.email');
-```
-
-### Removing a Key
-
-Use the `remove()` method to unset the value associated with a dot notation key:
-
-```php
-$dotdata->remove('user.address.country');
-```
-
-## Example
-
-```php
-$data = [
-    'user' => [
-        'name' => 'John Doe',
-        'email' => 'john.doe@example.com',
-        'address' => [
-            'city' => 'New York',
-            'country' => 'USA',
-        ],
-    ],
-];
-
-$dotdata = new DotAccess($data);
-
-$name = $dotdata->get('user.name'); // Output: "John Doe"
-$dotdata->set('user.age', 30);
-$emailExists = $dotdata->has('user.email'); // Output: true
-$dotdata->remove('user.address.country');
-
-echo "Name: $name\n";
-echo "Age: " . $dotdata->get('user.age') . "\n";
-echo "Email exists: " . ($emailExists ? 'Yes' : 'No') . "\n";
-```
-
-## Wrapper Function - DataKey:get()
-
-In addition to the `DotAccess` class, we also provide a standalone wrapper function `DataKey` that simplifies accessing nested data using dot notation.
-
-### Usage
-
-The `DataKey:get()` function allows you to quickly access nested data without having to create an instance of the `DotAccess` class. It takes three parameters:
-
-1. The data array or object to access.
-2. The dot notation key to access the data.
-3. An optional default value to return if the key is not found.
-
-Here's how you can use the `DataKey:get()` function:
-
-```php
-$data = [
-    'user' => [
-        'name' => 'John Doe',
-        'email' => 'john.doe@example.com',
-        'address' => [
-            'city' => 'New York',
-            'country' => 'USA',
-        ],
-    ],
-];
-
-// Using the wrapper function
-$name = DataKey:get($data, 'user.name');
-$email = DataKey:get($data, 'user.email');
-$city = DataKey:get($data, 'user.address.city');
-$zipCode = DataKey:get($data, 'user.address.zip_code', 'N/A'); // Provide a default value if the key doesn't exist
-
-echo "Name: $name\n";
-echo "Email: $email\n";
-echo "City: $city\n";
-echo "Zip Code: $zipCode\n";
-```
-
-### When to Use `DataKey:get()` vs. `DotAccess`
-
-Both the `DataKey:get()` function and the `DotAccess` class serve the same purpose: accessing nested data using dot notation. The choice between them depends on your specific use case and coding preferences.
-
-Use `DataKey:get()` when:
-
-- You prefer a simple function call over creating an instance of the `DotAccess` class.
-- You only need to access nested data at a few specific points in your code.
-- You don't need to perform multiple operations (e.g., setting, checking, or removing keys).
-
-Use `DotAccess` class when:
-
-- You need to perform multiple operations on the same nested data within your code.
-- You prefer an object-oriented approach for handling nested data.
-- You need better encapsulation and separation of concerns in your code.
-
-Both approaches provide a convenient and user-friendly way to work with nested data using dot notation. Choose the one that best fits your coding style and requirements.
+Contributions to the Urisoft Env Manager are welcome! Please ensure that your contributions follow the project's coding standards and include tests for new features or bug fixes.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Acknowledgments
-
-The `DotAccess` class is a simple wrapper around the `Dflydev\DotAccessData\Data` package, which provides the core functionality for accessing nested data using dot notation. Special thanks to the authors of the `Dflydev\DotAccessData` package for their excellent work.
+This project is licensed under the MIT License - see the LICENSE file for details.

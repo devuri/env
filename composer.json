@@ -1,11 +1,6 @@
 {
-    "name": "devuri/dot-access",
-    "description": "A simple PHP library for accessing nested data using dot notation.",
-    "keywords": [
-        "dot-access",
-        "nested-data",
-        "dot-notation"
-    ],
+    "name": "devuri/env",
+    "description": "A simple PHP library for accessing $_ENV.",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -17,12 +12,12 @@
         }
     ],
     "support": {
-        "source": "https://github.com/devuri/dot-access",
-        "issues": "https://github.com/devuri/dot-access/issues"
+        "source": "https://github.com/devuri/env",
+        "issues": "https://github.com/devuri/env/issues"
     },
     "require": {
-        "php": "^7.4 || ^8.0",
-        "dflydev/dot-access-data": "^3.0"
+        "php": "^7.3 || ^7.4 || ^8.0",
+		"devuri/encryption": "^0.3"
     },
     "autoload": {
         "psr-4": {
