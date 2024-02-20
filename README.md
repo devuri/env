@@ -119,4 +119,4 @@ Contributions to the Urisoft Env Manager are welcome! Please ensure that your co
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+Licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
