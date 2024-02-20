@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.2](https://github.com/devuri/env/compare/v0.2.1...v0.2.2) (2024-02-20)
+
+
+### Bug Fixes
+
+* allow  [@param](https://github.com/param) mixed for `$value` ([4478230](https://github.com/devuri/env/commit/447823039afcedf338b7c9d3f39ea946d5bc61bb))
+
 ## [0.2.1](https://github.com/devuri/env/compare/v0.2.0...v0.2.1) (2024-02-19)
 
 
