@@ -28,7 +28,7 @@ class Env
      * When `$strict` is true, it employs a more rigorous sanitization process by stripping
      * all HTML tags from the input.
      *
-     * @param string $value  The input string to be sanitized.
+     * @param mixed $value  The input string to be sanitized.
      * @param bool   $strict Optional. Determines the sanitization level. When set to true,
      *                       the method performs a more stringent sanitization by removing
      *                       all HTML tags. Defaults to false, in which case the input string
@@ -36,7 +36,7 @@ class Env
      *
      * @return string The sanitized string.
      */
-    public function sanitize( string $value, bool $strict = false ): string
+    public function sanitize( $value, bool $strict = false ): string
     {
         return $this->_sanitizeIt( $value, $strict );
     }
@@ -128,14 +128,14 @@ class Env
      * if strict sanitization is required, and removes excessive whitespace and non-printable characters
      * from the string to ensure it is clean and safe for use.
      *
-     * @param string $value  The input string to be sanitized.
+     * @param mixed $value  The input string to be sanitized.
      * @param bool   $strict Determines the sanitization level. When set to true, the method
      *                       strips all HTML tags from the input string for a stricter sanitization.
      *                       Defaults to false, allowing HTML tags to remain in the sanitized output.
      *
      * @return string The sanitized string, with unwanted characters and excessive whitespace removed.
      */
-    private function _sanitizeIt( string $value, bool $strict = false ): string
+    private function _sanitizeIt( $value, bool $strict = false ): string
     {
         $value = trim( $value );
         $value = $strict ? strip_tags( $value ) : $value;
