@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.2.3](https://github.com/devuri/env/compare/v0.2.2...v0.2.3) (2024-02-21)
+
+
+### Bug Fixes
+
+* adds `exit_on_fail` param to avoid senitive info exposed ([8f47f3b](https://github.com/devuri/env/commit/8f47f3bc11ea9ec9cf9f943caa7241bfa72f1f45))
+
+
+### Miscellaneous Chores
+
+* build ([df30b9b](https://github.com/devuri/env/commit/df30b9be5942cd7c11b8c3989815aedc117a5926))
+
 ## [0.2.2](https://github.com/devuri/env/compare/v0.2.1...v0.2.2) (2024-02-20)
 
 
