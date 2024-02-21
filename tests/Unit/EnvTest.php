@@ -21,22 +21,22 @@ class EnvTest extends TestCase
         // Define a sample whitelist for testing
         $whitelist = ['TEST_VAR', 'INT_VAR', 'BOOL_TRUE', 'BOOL_FALSE', 'NON_EXISTING'];
 
-		/**
-		 * Configures the testing environment by setting the exit status and initializing the `Env` class.
-		 *
-		 * The exit status is set to `false` to prevent the application from exiting in the testing environment,
-		 * which is a deviation from the default behavior in production. In production, the application exits
-		 * when an environment variable is undefined or not included in a predefined whitelist, safeguarding
-		 * against potential exposure of sensitive information. This method overrides this behavior for testing
-		 * purposes to ensure continuous execution.
-		 *
-		 * Following the configuration of the exit status, the `Env` class is initialized with a given whitelist.
-		 * This initialization is crucial for setting up the environment with predefined acceptable parameters,
-		 * which can be particularly useful for testing various scenarios without triggering the application's
-		 * exit conditions.
-		 */
-		$this->exit_status = false;
-		$this->env = new Env($whitelist, null, $this->exit_status);
+        /*
+         * Configures the testing environment by setting the exit status and initializing the `Env` class.
+         *
+         * The exit status is set to `false` to prevent the application from exiting in the testing environment,
+         * which is a deviation from the default behavior in production. In production, the application exits
+         * when an environment variable is undefined or not included in a predefined whitelist, safeguarding
+         * against potential exposure of sensitive information. This method overrides this behavior for testing
+         * purposes to ensure continuous execution.
+         *
+         * Following the configuration of the exit status, the `Env` class is initialized with a given whitelist.
+         * This initialization is crucial for setting up the environment with predefined acceptable parameters,
+         * which can be particularly useful for testing various scenarios without triggering the application's
+         * exit conditions.
+         */
+        $this->exit_status = false;
+        $this->env = new Env($whitelist, null, $this->exit_status);
 
         // Set some environment variables for testing purposes
         $_ENV['TEST_VAR'] = 'test value';
