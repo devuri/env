@@ -151,7 +151,7 @@ class Env
      */
     private function _sanitizeIt( $value, bool $strict = false ): string
     {
-        $value = trim( $value );
+        $value = trim( (string) $value );
         $value = $strict ? strip_tags( $value ) : $value;
         $value = preg_replace( '/[\r\n\t ]+/', ' ', $value );
 
