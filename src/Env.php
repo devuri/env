@@ -70,12 +70,12 @@ class Env
     {
         $InvalidArgumentMessage = 'Access to undefined or ! whitelisted environment variable:';
 
-        if ( $this->exit_on_fail ) {
+		$is_whitelisted = $this->isWhitelisted( $name );
+
+        if ( ! $is_whitelisted && $this->exit_on_fail ) {
             error_log( $InvalidArgumentMessage . $name );
             exit( $InvalidArgumentMessage );
-        }
-
-        if ( ! \in_array( $name, $this->whitelist, true ) ) {
+        } elseif ( ! $is_whitelisted ) {
             throw new InvalidArgumentException( $InvalidArgumentMessage . $name );
         }
 
@@ -111,6 +111,11 @@ class Env
 
         return $strtolower ? strtolower( $value ) : $value;
     }
+
+	private function isWhitelisted( string $name ): bool
+	{
+		return in_array( $name, $this->whitelist, true );
+	}
 
     protected function filterInt( $value )
     {
