@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.5](https://github.com/devuri/env/compare/v0.2.4...v0.2.5) (2024-02-21)
+
+
+### Bug Fixes
+
+* trim notice ([84aca56](https://github.com/devuri/env/commit/84aca56695792f29329c4814db6c99ed43ed831e))
+
 ## [0.2.4](https://github.com/devuri/env/compare/v0.2.3...v0.2.4) (2024-02-21)
 
 
