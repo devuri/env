@@ -8,11 +8,13 @@ class Env
 {
     protected $whitelist = [];
     protected $encryptionPath;
+    protected $exit_on_fail;
 
-    public function __construct( array $whitelist = [], $encryptionPath = null )
+    public function __construct( array $whitelist = [], $encryptionPath = null, bool $exit_on_fail = true )
     {
         $this->whitelist      = $whitelist;
         $this->encryptionPath = $encryptionPath;
+        $this->exit_on_fail  = $exit_on_fail;
     }
 
     public function setWhitelist( array $whitelist ): void
@@ -66,8 +68,15 @@ class Env
      */
     public function get( $name, $defaultOrEncrypt = null, $strtolower = false )
     {
+        $InvalidArgumentMessage = "Access to undefined or ! whitelisted environment variable:";
+
+        if ( $this->exit_on_fail ) {
+            error_log( $InvalidArgumentMessage . $name );
+            exit($InvalidArgumentMessage);
+        }
+
         if ( ! \in_array( $name, $this->whitelist, true ) ) {
-            throw new InvalidArgumentException( "Access to undefined environment variable: {$name}" );
+            throw new InvalidArgumentException( $InvalidArgumentMessage . $name );
         }
 
         $value = $_ENV[ $name ] ?? $defaultOrEncrypt;
