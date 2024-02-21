@@ -8,11 +8,13 @@ class Env
 {
     protected $whitelist = [];
     protected $encryptionPath;
+    protected $exit_on_fail;
 
-    public function __construct( array $whitelist = [], $encryptionPath = null )
+    public function __construct( array $whitelist = [], $encryptionPath = null, bool $exit_on_fail = true )
     {
         $this->whitelist      = $whitelist;
         $this->encryptionPath = $encryptionPath;
+        $this->exit_on_fail   = $exit_on_fail;
     }
 
     public function setWhitelist( array $whitelist ): void
@@ -29,10 +31,10 @@ class Env
      * all HTML tags from the input.
      *
      * @param mixed $value  The input string to be sanitized.
-     * @param bool   $strict Optional. Determines the sanitization level. When set to true,
-     *                       the method performs a more stringent sanitization by removing
-     *                       all HTML tags. Defaults to false, in which case the input string
-     *                       is sanitized without removing HTML tags.
+     * @param bool  $strict Optional. Determines the sanitization level. When set to true,
+     *                      the method performs a more stringent sanitization by removing
+     *                      all HTML tags. Defaults to false, in which case the input string
+     *                      is sanitized without removing HTML tags.
      *
      * @return string The sanitized string.
      */
@@ -66,8 +68,15 @@ class Env
      */
     public function get( $name, $defaultOrEncrypt = null, $strtolower = false )
     {
+        $InvalidArgumentMessage = 'Access to undefined or ! whitelisted environment variable:';
+
+        if ( $this->exit_on_fail ) {
+            error_log( $InvalidArgumentMessage . $name );
+            exit( $InvalidArgumentMessage );
+        }
+
         if ( ! \in_array( $name, $this->whitelist, true ) ) {
-            throw new InvalidArgumentException( "Access to undefined environment variable: {$name}" );
+            throw new InvalidArgumentException( $InvalidArgumentMessage . $name );
         }
 
         $value = $_ENV[ $name ] ?? $defaultOrEncrypt;
@@ -129,9 +138,9 @@ class Env
      * from the string to ensure it is clean and safe for use.
      *
      * @param mixed $value  The input string to be sanitized.
-     * @param bool   $strict Determines the sanitization level. When set to true, the method
-     *                       strips all HTML tags from the input string for a stricter sanitization.
-     *                       Defaults to false, allowing HTML tags to remain in the sanitized output.
+     * @param bool  $strict Determines the sanitization level. When set to true, the method
+     *                      strips all HTML tags from the input string for a stricter sanitization.
+     *                      Defaults to false, allowing HTML tags to remain in the sanitized output.
      *
      * @return string The sanitized string, with unwanted characters and excessive whitespace removed.
      */

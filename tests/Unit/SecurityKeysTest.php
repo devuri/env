@@ -27,7 +27,7 @@ class SecurityKeysTest extends TestCase
             'SECURE_AUTH_SALT',
             'LOGGED_IN_SALT',
             'NONCE_SALT',
-        ]);
+        ], null, false );
 
         $security_keys = [
             'AUTH_KEY' => 'BmR+ZqO+%U5J`(/x<`k6<80P`yJ;ZPo~wo=IiVi7&9MucFW~2HVl?h^x|4=cGN<)',
