@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.4](https://github.com/devuri/env/compare/v0.2.3...v0.2.4) (2024-02-21)
+
+
+### Bug Fixes
+
+* update exit fail fix ([3f5d07b](https://github.com/devuri/env/commit/3f5d07bd05210be889af1a994f2bedd73df7710b))
+
 ## [0.2.3](https://github.com/devuri/env/compare/v0.2.2...v0.2.3) (2024-02-21)
 
 
