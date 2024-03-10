@@ -98,8 +98,12 @@ class Env
             return (int) $value;
         }
 
+        if ( empty($value) ) {
+            return null;
+        }
+
         if ( \in_array( $value, [ 'Null', 'null', 'NULL', null ], true ) ) {
-            return '';
+            return null;
         }
 
         switch ( strtolower( $value ) ) {
