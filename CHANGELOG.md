@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.2.6](https://github.com/devuri/env/compare/v0.2.5...v0.2.6) (2024-03-10)
+
+
+### Bug Fixes
+
+* empty `$value` needs to return `null` ([3e64583](https://github.com/devuri/env/commit/3e6458372ffd145f5765e664c1db8b8b1314b7d3))
+
+
+### Miscellaneous Chores
+
+* build ([eba4e33](https://github.com/devuri/env/commit/eba4e33cfff6b7fcbc9b1f65e932f480ac8f2169))
+
 ## [0.2.5](https://github.com/devuri/env/compare/v0.2.4...v0.2.5) (2024-02-21)
 
 
