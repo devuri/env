@@ -70,12 +70,13 @@ class Env
     {
         $InvalidArgumentMessage = 'Access to undefined or ! whitelisted environment variable:';
 
-		$is_whitelisted = $this->isWhitelisted( $name );
+        $is_whitelisted = $this->isWhitelisted( $name );
 
         if ( ! $is_whitelisted && $this->exit_on_fail ) {
             error_log( $InvalidArgumentMessage . $name );
             exit( $InvalidArgumentMessage );
-        } elseif ( ! $is_whitelisted ) {
+        }
+        if ( ! $is_whitelisted ) {
             throw new InvalidArgumentException( $InvalidArgumentMessage . $name );
         }
 
@@ -98,8 +99,12 @@ class Env
             return (int) $value;
         }
 
+        if ( empty( $value ) ) {
+            return null;
+        }
+
         if ( \in_array( $value, [ 'Null', 'null', 'NULL', null ], true ) ) {
-            return '';
+            return null;
         }
 
         switch ( strtolower( $value ) ) {
@@ -111,11 +116,6 @@ class Env
 
         return $strtolower ? strtolower( $value ) : $value;
     }
-
-	private function isWhitelisted( string $name ): bool
-	{
-		return in_array( $name, $this->whitelist, true );
-	}
 
     protected function filterInt( $value )
     {
@@ -132,6 +132,11 @@ class Env
     protected function isIntVal( $str )
     {
         return is_numeric( $str ) && \intval( $str ) == $str;
+    }
+
+    private function isWhitelisted( string $name ): bool
+    {
+        return \in_array( $name, $this->whitelist, true );
     }
 
     /**
