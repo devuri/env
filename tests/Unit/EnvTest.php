@@ -19,7 +19,7 @@ class EnvTest extends TestCase
     protected function setUp(): void
     {
         // Define a sample whitelist for testing
-        $whitelist = ['TEST_VAR', 'INT_VAR', 'BOOL_TRUE', 'BOOL_FALSE', 'NON_EXISTING'];
+        $whitelist = ['EMPTY_VAR', 'TEST_VAR', 'INT_VAR', 'BOOL_TRUE', 'BOOL_FALSE', 'NON_EXISTING'];
 
         /*
          * Configures the testing environment by setting the exit status and initializing the `Env` class.
@@ -43,6 +43,7 @@ class EnvTest extends TestCase
         $_ENV['INT_VAR'] = '123';
         $_ENV['BOOL_TRUE'] = 'true';
         $_ENV['BOOL_FALSE'] = 'false';
+        $_ENV['EMPTY_VAR'] = ' ';
     }
 
     public function test_get_existing_variable(): void
@@ -68,6 +69,11 @@ class EnvTest extends TestCase
     public function test_get_boolean_false_variable(): void
     {
         $this->assertFalse($this->env->get('BOOL_FALSE'));
+    }
+
+	public function test_get_empty_null_variable(): void
+    {
+        $this->assertNull($this->env->get('EMPTY_VAR'));
     }
 
     public function test_access_to_non_whitelisted_variable_throws_exception(): void
