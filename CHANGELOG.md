@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.3.0](https://github.com/devuri/env/compare/v0.2.6...v0.3.0) (2024-03-28)
+
+
+### ⚠ BREAKING CHANGES
+
+* bool `$encrypt` must be passed to invoke `new Encryption`
+
+### Bug Fixes
+
+* bool `$encrypt` must be passed to invoke `new Encryption` ([4d7d641](https://github.com/devuri/env/commit/4d7d641647c91044ed8e4ff77ac05aff36fa983a))
+
 ## [0.2.6](https://github.com/devuri/env/compare/v0.2.5...v0.2.6) (2024-03-10)
 
 
