@@ -44,7 +44,7 @@ To use the encryption feature, ensure you have set an encryption path and the `E
 $env = new Env([], '/path/to/encryption/key');
 
 // Retrieve and encrypt an environment variable
-$encryptedAppKey = $env->get('APP_KEY', true);
+$encryptedAppKey = $env->get('APP_KEY', 'secret value', true );
 ```
 
 ### Updating the Whitelist
@@ -66,15 +66,20 @@ Here's an example of how you might implement such a function:
 use Urisoft\Env;
 
 /**
- * A convenient global function to access environment variables using the Env class.
+ * Retrieves a sanitized, and optionally encrypted or modified, environment variable by name.
  *
- * @param string $name The name of the environment variable.
- * @param mixed  $defaultOrEncrypt Default value or encryption flag.
- * @param bool   $strtolower Whether to convert the value to lowercase.
+ * @param string $name             The name of the environment variable to retrieve.
+ * @param mixed  $default Default value to return if the environment variable is not set
+ * @param bool   $encrypt       Indicate that the value should be encrypted. Defaults to false.
+ * @param bool   $strtolower       Whether to convert the retrieved value to lowercase. Defaults to false.
  *
- * @return mixed The value of the environment variable, processed according to the Env class logic.
+ * @throws InvalidArgumentException If the requested environment variable name is not in the whitelist
+ *                                  or if encryption is requested but the encryption path is not defined.
+ *
+ * @return mixed The sanitized environment variable value, possibly encrypted or typecast,
+ *               or transformed to lowercase if specified.
  */
-function env($name, $defaultOrEncrypt = null, $strtolower = false) {
+function env( $name, $default = null, $encrypt = false, $strtolower = false ) {
     // Define your whitelist and encryption path here. These could also be fetched from a configuration file or another source.
     $whitelist = [
         // Add your environment variables to the whitelist
@@ -89,7 +94,7 @@ function env($name, $defaultOrEncrypt = null, $strtolower = false) {
     }
 
     // Use the Env instance to get the environment variable value
-    return $env->get($name, $defaultOrEncrypt, $strtolower);
+    return $env->get($name, $default, $encrypt, $strtolower);
 }
 ```
 

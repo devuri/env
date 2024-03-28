@@ -48,17 +48,17 @@ class Env
      *
      * This method first checks if the requested environment variable name is within the allowed whitelist.
      * If not, it throws an InvalidArgumentException. If the variable is in the whitelist, it retrieves the value
-     * from the environment, with a fallback to the provided default or encryption flag. The value is then sanitized
-     * for safe use. If encryption is requested (by setting the second parameter to true), and an encryption path
+     * from the environment, with a fallback to the provided default. The value is then sanitized
+     * for safe use. If encryption is requested (by setting the third parameter to true), and an encryption path
      * is defined, the value is encrypted. Otherwise, the method attempts to cast the value to its appropriate
      * data type based on its content. It supports casting to integer and boolean, and recognizes 'null' values
      * which are converted to an empty string. Additionally, the value can be converted to lowercase based on
      * the `$strtolower` parameter.
      *
-     * @param string $name             The name of the environment variable to retrieve.
-     * @param mixed  $defaultOrEncrypt Default value to return if the environment variable is not set,
-     *                                 or boolean true to indicate that the value should be encrypted.
-     * @param bool   $strtolower       Whether to convert the retrieved value to lowercase. Defaults to false.
+     * @param string $name       The name of the environment variable to retrieve.
+     * @param mixed  $default    Default value to return if the environment variable is not set
+     * @param bool   $encrypt    Indicate that the value should be encrypted. Defaults to false.
+     * @param bool   $strtolower Whether to convert the retrieved value to lowercase. Defaults to false.
      *
      * @throws InvalidArgumentException If the requested environment variable name is not in the whitelist
      *                                  or if encryption is requested but the encryption path is not defined.
@@ -66,7 +66,7 @@ class Env
      * @return mixed The sanitized environment variable value, possibly encrypted or typecast,
      *               or transformed to lowercase if specified.
      */
-    public function get( $name, $defaultOrEncrypt = null, $strtolower = false )
+    public function get( $name, $default = null, $encrypt = false, $strtolower = false )
     {
         $InvalidArgumentMessage = 'Access to undefined or ! whitelisted environment variable:';
 
@@ -80,12 +80,12 @@ class Env
             throw new InvalidArgumentException( $InvalidArgumentMessage . $name );
         }
 
-        $value = $_ENV[ $name ] ?? $defaultOrEncrypt;
+        $value = $_ENV[ $name ] ?? $default;
 
         // Sanitize the value.
         $value = $this->sanitize( $value );
 
-        if ( true === $defaultOrEncrypt ) {
+        if ( true === $encrypt ) {
             if ( ! $this->encryptionPath ) {
                 throw new InvalidArgumentException( 'Error: Encryption path is not defined' );
             }
