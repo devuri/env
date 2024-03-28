@@ -71,7 +71,7 @@ class EnvTest extends TestCase
         $this->assertFalse($this->env->get('BOOL_FALSE'));
     }
 
-	public function test_get_empty_null_variable(): void
+    public function test_get_empty_null_variable(): void
     {
         $this->assertNull($this->env->get('EMPTY_VAR'));
     }
